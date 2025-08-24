@@ -1,6 +1,6 @@
 {
-  "name": "Jadwal Pelajaran",
-  "short_name": "Jadwal",
+  "name": "Smart Scan Pro",
+  "short_name": "Smart Scan",
   "start_url": "index.html",
   "display": "standalone",
   "background_color": "#ffffff",
