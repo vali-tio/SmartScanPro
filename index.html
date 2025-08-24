@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jadwal Pelajaran</title>
+   <link rel="manifest" href="manifest.webmanifest">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f4f4f9; color: #333; transition: background 0.3s, color 0.3s; }
+    .dark { background: #1e1e1e; color: #f4f4f9; }
+    .container { max-width: 600px; margin: auto; }
+    select, input, button, textarea { padding: 8px; margin: 5px 0; border-radius: 6px; border: 1px solid #ccc; background: inherit; color: inherit; }
+    button { cursor: pointer; }
+    .btn { margin: 2px; padding: 6px 12px; border: none; border-radius: 6px; }
+    .btn-green { background: #28a745; color: #fff; }
+    .btn-blue { background: #007bff; color: #fff; }
+    .btn-red { background: #dc3545; color: #fff; }
+    .btn-yellow { background: #ffc107; color: #000; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+    th { background: #eee; }
+    .dark th { background: #333; }
+    .dark td, .dark th { border-color: #555; }
+    textarea { width: 100%; min-height: 80px; margin-top: 10px; resize: vertical; box-sizing: border-box; }
+    tr.dragging { opacity: 0.5; }
+  </style>
+</head>
+<footer id="donateFooter">
+  <span>Gratis untuk semua</span>
+  <a href="https://saweria.co/valitio" target="_blank" rel="noopener noreferrer">
+    💝 Dukung via Saweria
+  </a>
+</footer>
+
+<style>
+  #donateFooter {
+    position: fixed;
+    bottom: 0; left: 0;
+    width: 100%;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    color: var(--text);
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 999;
+  }
+  #donateFooter a {
+    color: #f97316;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  #donateFooter a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<body>
+<div class="container">
+  <h2>Jadwal</h2>
+  <div>
+    <label>Pilih Hari:</label>
+    <select id="daySelect"></select>
+    <button class="btn btn-green" onclick="addDay()">+ Hari</button>
+    <button class="btn btn-red" onclick="removeDay()">- Hari</button>
+  </div>
+  <div>
+    <input type="text" id="subjectInput" placeholder="Tambah mata pelajaran...">
+    <button class="btn btn-green" onclick="addSubject()">+ Tambah</button>
+  </div>
+  <div>
+    <button class="btn btn-blue" onclick="saveData()">Simpan</button>
+    <button class="btn btn-green" onclick="importData()">Import</button>
+    <button class="btn btn-green" onclick="backupData()">Backup</button>
+    <button class="btn btn-yellow" onclick="toggleDarkMode()">🌙/☀️</button>
+  </div>
+
+  <table id="scheduleTable">
+    <thead>
+      <tr><th>No</th><th>Mata Pelajaran</th><th>Aksi</th></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <div>
+    <h3>Catatan:</h3>
+    <textarea id="notes" placeholder="Tulis catatan di sini..."></textarea>
+  </div>
+</div>
+
+<script>
+  let data = JSON.parse(localStorage.getItem('jadwalData')) || { days: { 'Senin': [], }, notes: {} };
+  const daySelect = document.getElementById('daySelect');
+  const subjectInput = document.getElementById('subjectInput');
+  const scheduleTable = document.getElementById('scheduleTable').querySelector('tbody');
+  const notes = document.getElementById('notes');
+  let dragSrcEl = null;
+
+  function renderDays(){
+    daySelect.innerHTML = '';
+    for (let d in data.days){
+      let opt = document.createElement('option');
+      opt.value = d; opt.textContent = d;
+      daySelect.appendChild(opt);
+    }
+    renderSchedule();
+  }
+
+  function addDay(){
+    let name = prompt('Nama hari:');
+    if(name && !data.days[name]){ data.days[name] = []; renderDays(); saveData(); }
+  }
+
+  function removeDay(){
+    let d = daySelect.value;
+    if(confirm('Hapus hari ' + d + '?')){
+      delete data.days[d];
+      delete data.notes[d];
+      renderDays(); saveData();
+    }
+  }
+
+  function addSubject(){
+    let d = daySelect.value;
+    let subj = subjectInput.value.trim();
+    if(subj){
+      data.days[d].push(subj);
+      subjectInput.value = '';
+      renderSchedule(); saveData();
+    }
+  }
+
+  function removeSubject(index){
+    let d = daySelect.value;
+    data.days[d].splice(index,1);
+    renderSchedule(); saveData();
+  }
+
+  function editSubject(index){
+    let d = daySelect.value;
+    let cell = document.getElementById('subj-'+index);
+    cell.contentEditable = true;
+    cell.focus();
+    cell.onblur = function(){
+      data.days[d][index] = cell.textContent.trim();
+      cell.contentEditable = false;
+      saveData();
+    };
+  }
+
+  function renderSchedule(){
+    let d = daySelect.value;
+    scheduleTable.innerHTML = '';
+    data.days[d].forEach((subj,i)=>{
+      let tr = document.createElement('tr');
+      tr.setAttribute('draggable','true');
+      tr.innerHTML = `<td>${i+1}</td>
+                      <td id="subj-${i}">${subj}</td>
+                      <td>
+                        <button class='btn btn-blue' onclick='editSubject(${i})'>✏️</button>
+                        <button class='btn btn-red' onclick='removeSubject(${i})'>🗑️</button>
+                      </td>`;
+      addDnDHandlers(tr, i);
+      scheduleTable.appendChild(tr);
+    });
+    notes.value = data.notes[d] || '';
+  }
+
+  function saveData(){
+    let d = daySelect.value;
+    data.notes[d] = notes.value;
+    localStorage.setItem('jadwalData', JSON.stringify(data));
+    alert('Data disimpan!');
+  }
+
+  function backupData(){
+    let blob = new Blob([JSON.stringify(data)], {type:'application/json'});
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'jadwal.json';
+    a.click();
+  }
+
+  function importData(){
+    let inp = document.createElement('input');
+    inp.type = 'file';
+    inp.accept = 'application/json';
+    inp.onchange = e=>{
+      let file = e.target.files[0];
+      let reader = new FileReader();
+      reader.onload = ()=>{ data = JSON.parse(reader.result); renderDays(); saveData(); };
+      reader.readAsText(file);
+    };
+    inp.click();
+  }
+
+  function toggleDarkMode(){
+    document.body.classList.toggle('dark');
+  }
+
+  function addDnDHandlers(row, index){
+    row.addEventListener('dragstart', (e)=>{
+      dragSrcEl = index;
+      row.classList.add('dragging');
+    });
+    row.addEventListener('dragend', ()=>{
+      row.classList.remove('dragging');
+    });
+    row.addEventListener('dragover', (e)=>{
+      e.preventDefault();
+    });
+    row.addEventListener('drop', (e)=>{
+      let d = daySelect.value;
+      let rows = Array.from(scheduleTable.querySelectorAll('tr'));
+      let dropIndex = rows.indexOf(row);
+      let moved = data.days[d].splice(dragSrcEl,1)[0];
+      data.days[d].splice(dropIndex,0,moved);
+      renderSchedule(); saveData();
+    });
+  }
+
+  daySelect.onchange = renderSchedule;
+  renderDays();
+      // Register Service Worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("Service Worker registered"))
+        .catch(err => console.error("SW registration failed:", err));
+    }
+</script>
+</body>
+</html>
