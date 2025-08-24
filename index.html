@@ -1,46 +1,45 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SmartScan PRO — HQ (Auto Crop, PDF, OCR)</title>
-  <link rel="manifest" href="manifest.webmanifest">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SmartScan Lite — High Quality</title>
+ <link rel="manifest" href="manifest.webmanifest">
   <style>
-  :root { --bg:#0a0f15; --card:#101722; --muted:#9fb0c3; --text:#e7edf4; --accent:#57b2ff; --ok:#22c55e; --warn:#f59e0b; }
-  *{ box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-  body{ margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#0a0f15,#0c1421); color:var(--text); }
-  header { position:sticky; top:0; z-index:9; background:rgba(10,15,21,.6); backdrop-filter: blur(10px); border-bottom:1px solid #1f2a37; }
-  .wrap{ max-width:1000px; margin:0 auto; padding:12px 16px; }
-  h1{ font-size:20px; margin:8px 0; display:flex; align-items:center; gap:10px; }
-  .badge{ font-size:12px; padding:3px 8px; border-radius:999px; background:#102b47; color:#cfe7ff; border:1px solid #2f5d91; }
-  .grid{ display:grid; grid-template-columns:1fr; gap:12px; }
-  @media(min-width:960px){ .grid{ grid-template-columns:1.35fr .9fr; } }
-  .card{ background: linear-gradient(180deg,#101722,#0f1520); border:1px solid #1f2a37; border-radius:16px; padding:12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
-  .toolbar{ display:flex; flex-wrap:wrap; gap:8px; }
-  button, .btn{ background:#172234; color:var(--text); border:1px solid #283447; padding:10px 12px; border-radius:12px; font-weight:600; cursor:pointer; }
-  button:disabled{ opacity:.55; cursor:not-allowed; }
-  .btn-accent{ background:#16314d; border-color:#2b5582; }
-  .btn-ok{ background:#12351f; border-color:#1f6b3a; }
-  .btn-warn{ background:#3b2b0c; border-color:#6b4e16; }
-  .btn-ghost{ background:transparent; border-color:#243246; }
+  :root { --bg:#090d12; --card:#101722; --muted:#9fb0c3; --text:#e7edf4; --accent:#53b1ff; --ok:#22c55e; --warn:#f59e0b; }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial; background:linear-gradient(180deg,#0a0f15,#0d1420); color:var(--text); }
+  header { position:sticky; top:0; z-index:10; backdrop-filter: blur(10px); background:rgba(9,13,18,.6); border-bottom:1px solid #1c2635; }
+  .wrap { max-width:980px; margin:0 auto; padding:12px 16px; }
+  h1 { font-size:20px; margin:8px 0; display:flex; align-items:center; gap:10px; }
+  .badge { font-size:12px; padding:3px 8px; border-radius:999px; background:#0f2540; color:#c9e7ff; border:1px solid #2c568b; }
+  .grid { display:grid; grid-template-columns:1fr; gap:12px; }
+  @media(min-width:920px){ .grid{ grid-template-columns: 1.3fr .9fr; } }
+  .card { background: linear-gradient(180deg, #101722, #0f1521); border:1px solid #1e2a3b; border-radius:16px; padding:12px; box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+  .toolbar { display:flex; flex-wrap:wrap; gap:8px; }
+  button, .btn { background:#172234; color:var(--text); border:1px solid #283447; padding:10px 12px; border-radius:12px; font-weight:600; cursor:pointer; }
+  button:disabled{ opacity:.5; cursor:not-allowed; }
+  .btn-accent { background:#16314d; border-color:#2b5582; }
+  .btn-ok { background:#12351f; border-color:#1f6b3a; }
+  .btn-warn { background:#3b2b0c; border-color:#6b4e16; }
+  .btn-ghost { background:transparent; border-color:#243246; }
   input[type="file"]{ display:none; }
-  label.file{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; }
-  .small{ font-size:12px; color:var(--muted); }
-  .canvas-wrap{ position:relative; width:100%; background:#0a0f15; border-radius:12px; overflow:hidden; border:1px dashed #2a3a51; min-height:260px; display:flex; align-items:center; justify-content:center; }
-  canvas{ max-width:100%; height:auto; touch-action:none; }
-  .crop-rect{ position:absolute; border:2px dashed #57b2ff; pointer-events:none; }
-  .handle{ position:absolute; width:18px; height:18px; border-radius:50%; background:#57b2ff; border:2px solid #0b0f14; transform:translate(-50%,-50%); touch-action:none; }
-  .row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-  .pages{ display:flex; gap:8px; flex-wrap:wrap; }
-  .thumb{ width:68px; height:96px; border:1px solid #223047; border-radius:10px; overflow:hidden; position:relative; }
+  label.file { display:inline-flex; align-items:center; gap:8px; cursor:pointer; }
+  .small { font-size:12px; color:var(--muted); }
+  .canvas-wrap { position:relative; width:100%; background:#0a0f15; border-radius:12px; overflow:hidden; border:1px dashed #2a3a51; min-height:240px; display:flex; align-items:center; justify-content:center; }
+  canvas { max-width:100%; height:auto; }
+  .crop-rect { position:absolute; border:2px dashed #53b1ff; pointer-events:none; }
+  .handle { position:absolute; width:18px; height:18px; border-radius:50%; background:#53b1ff; border:2px solid #0b0f14; transform:translate(-50%,-50%); touch-action:none; }
+  .row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .pages { display:flex; gap:8px; flex-wrap:wrap; }
+  .thumb { width:68px; height:96px; border:1px solid #223047; border-radius:10px; overflow:hidden; position:relative; }
   .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
-  .thumb .x{ position:absolute; top:4px; right:4px; background:rgba(0,0,0,.6); border:1px solid #405470; border-radius:8px; font-size:12px; padding:2px 6px; cursor:pointer; }
-  .seg{ height:1px; background:#1f2a37; margin:8px 0; }
+  .thumb .x { position:absolute; top:4px; right:4px; background:rgba(0,0,0,.6); border:1px solid #405470; border-radius:8px; font-size:12px; padding:2px 6px; cursor:pointer; }
+  .seg { height:1px; background:#1f2a37; margin:8px 0; }
   .select, .num { background:#111827; color:var(--text); border:1px solid #253245; padding:8px 10px; border-radius:10px; }
-  .num{ width:90px; }
-  footer{ text-align:center; color:#8ea1b4; font-size:12px; padding:12px; }
-  .chip{ background:#0f2338; border:1px solid #274664; color:#cfe7ff; padding:6px 10px; border-radius:999px; font-size:12px; display:inline-flex; align-items:center; gap:6px; }
-  textarea{ width:100%; min-height:120px; background:#0c1118; color:var(--text); border:1px solid #243246; border-radius:10px; padding:10px; }
+  .num { width:90px; }
+  footer { text-align:center; color:#8ea1b4; font-size:12px; padding:12px; }
+  .chip { background:#0f2338; border:1px solid #274664; color:#cfe7ff; padding:6px 10px; border-radius:999px; font-size:12px; }
 </style>
 </head>
 <footer id="donateFooter">
@@ -79,7 +78,7 @@
 <body>
 <header>
   <div class="wrap">
-    <h1>SmartScan PRO <span class="badge">HQ + Auto Crop + OCR</span></h1>
+    <h1>SmartScan Lite <span class="badge">High Quality</span></h1>
   </div>
 </header>
 
@@ -92,7 +91,6 @@
           📷 Ambil Foto / Pilih Gambar
         </label>
         <button class="btn btn-ghost" id="rotateBtn" disabled>↻ Putar</button>
-        <button class="btn" id="autoCropBtn" disabled>✂️ Auto-Detect Tepi</button>
         <select id="filterSelect" class="select" disabled>
           <option value="none">Filter: Original</option>
           <option value="gray">Grayscale</option>
@@ -101,14 +99,14 @@
           <option value="sharpen">Sharpen (Tajamkan)</option>
         </select>
         <select id="qualityMode" class="select" title="Mode Kualitas" disabled>
-          <option value="hq" selected>Mode: High Quality</option>
           <option value="normal">Mode: Normal</option>
+          <option value="hq" selected>Mode: High Quality</option>
         </select>
         <label class="chip">Max Lebar:
-          <input id="maxWidth" class="num" type="number" min="1000" max="4000" step="100" value="2400" disabled />
+          <input id="maxWidth" class="num" type="number" min="800" max="4000" step="100" value="2200" disabled />
         </label>
         <label class="chip">JPG Quality:
-          <input id="jpgQuality" class="num" type="number" min="0.5" max="1" step="0.05" value="0.95" disabled />
+          <input id="jpgQuality" class="num" type="number" min="0.5" max="1" step="0.05" value="1" disabled />
         </label>
         <button class="btn" id="resetBtn" disabled>Reset</button>
       </div>
@@ -126,7 +124,7 @@
       <div class="row" style="margin-top:10px;">
         <button class="btn btn-ok" id="addPageBtn" disabled>+ Tambah ke Dokumen</button>
         <button class="btn btn-warn" id="clearPageBtn" disabled>Hapus Semua</button>
-        <span class="small" id="hint">Tips: Pencet Auto-Detect, lalu koreksi crop dengan 4 titik biru jika perlu.</span>
+        <span class="small" id="hint">Tips: Seret 4 titik biru untuk crop dokumen.</span>
       </div>
     </section>
 
@@ -136,60 +134,21 @@
       </div>
       <div class="pages" id="pages"></div>
       <div class="seg"></div>
-
       <div class="row">
-        <strong>PDF (A4) — Kompresi Cerdas</strong>
-      </div>
-      <div class="row">
-        <label class="chip">Target DPI:
-          <select id="dpiSelect" class="select">
-            <option value="150">150 DPI (ringan, cukup jelas)</option>
-            <option value="200" selected>200 DPI (disarankan)</option>
-            <option value="300">300 DPI (sangat tajam, file lebih besar)</option>
-          </select>
-        </label>
-        <label class="chip">JPEG Q (PDF):
-          <input id="pdfQuality" class="num" type="number" min="0.5" max="1" step="0.05" value="0.8" />
-        </label>
-      </div>
-      <div class="row">
-        <button class="btn btn-ok" id="exportPdfBtn" disabled>⬇️ Export PDF</button>
+        <button class="btn btn-ok" id="exportPdfBtn" disabled>⬇️ Export PDF (A4)</button>
         <button class="btn" id="exportJpgBtn" disabled>⬇️ Simpan JPG</button>
         <button class="btn" id="shareBtn" disabled>📤 Share</button>
       </div>
-
-      <div class="seg"></div>
-      <div class="row">
-        <strong>🧠 OCR (Ambil Teks)</strong>
-      </div>
-      <div class="row">
-        <label class="chip">Bahasa:
-          <select id="ocrLang" class="select">
-            <option value="eng" selected>English</option>
-            <option value="ind">Indonesia</option>
-          </select>
-        </label>
-        <button class="btn" id="ocrBtn" disabled>🔍 Jalankan OCR</button>
-      </div>
-      <div class="row small" id="ocrStatus">Status: -</div>
-      <textarea id="ocrOutput" placeholder="Hasil OCR akan muncul di sini..." readonly></textarea>
-      <div class="row">
-        <button class="btn" id="copyTextBtn" disabled>📋 Copy Teks</button>
-        <button class="btn" id="saveTxtBtn" disabled>💾 Simpan .txt</button>
-      </div>
-      <p class="small">Catatan: OCR butuh internet untuk memuat model bahasa (sekali di-load, bisa cache).</p>
+      <p class="small">Mode High Quality menghasilkan gambar tajam tanpa watermark. Ukuran file bisa lebih besar.</p>
     </aside>
   </div>
 </main>
 
 <footer>
-  SmartScan PRO — semua proses lokal di perangkat Anda. Auto-crop dengan OpenCV.js, OCR dengan Tesseract.js. Tidak ada watermark.
+  SmartScan Lite – semua proses lokal di perangkat Anda. Mode HQ cocok untuk cap/tanda tangan.
 </footer>
 
-<!-- Libraries from CDN (needs internet): -->
-<script src="https://docs.opencv.org/4.x/opencv.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.5/dist/tesseract.min.js"></script>
 
 <script>
 (function(){
@@ -200,7 +159,6 @@
   const rotateBtn = $('#rotateBtn');
   const resetBtn = $('#resetBtn');
   const filterSelect = $('#filterSelect');
-  const autoCropBtn = $('#autoCropBtn');
   const qualityMode = $('#qualityMode');
   const maxWidthInput = $('#maxWidth');
   const jpgQualityInput = $('#jpgQuality');
@@ -215,35 +173,24 @@
   const cropRect = $('#cropRect');
   const handles = { tl: $('#h-tl'), tr: $('#h-tr'), bl: $('#h-bl'), br: $('#h-br') };
 
-  const dpiSelect = $('#dpiSelect');
-  const pdfQualityInput = $('#pdfQuality');
-
-  const ocrBtn = $('#ocrBtn');
-  const ocrStatus = $('#ocrStatus');
-  const ocrOutput = $('#ocrOutput');
-  const ocrLang = $('#ocrLang');
-  const copyTextBtn = $('#copyTextBtn');
-  const saveTxtBtn = $('#saveTxtBtn');
-
   let img = new Image();
   let imgRotation = 0;
-  let crop = null; // {x,y,w,h} in canvas space
+  let crop = null;
   let currentFilter = 'none';
-  let quality = 0.95;
+  let quality = 1.0;
   let modeHQ = true;
-  let maxWSetting = 2400;
-  const pages = []; // {dataUrl}
+  let maxWSetting = 2200;
+  const pages = [];
 
-  // ===== UI enable/disable =====
   function setUIEnabled(hasImage){
-    [rotateBtn, resetBtn, filterSelect, addPageBtn, exportJpgBtn, shareBtn, qualityMode, maxWidthInput, jpgQualityInput, autoCropBtn, ocrBtn].forEach(el=>el.disabled = !hasImage);
+    [rotateBtn, resetBtn, filterSelect, addPageBtn, exportJpgBtn, shareBtn, qualityMode, maxWidthInput, jpgQualityInput].forEach(el=>el.disabled = !hasImage);
     toggleCropUI(hasImage);
   }
+
   function toggleCropUI(show){
     [cropRect, handles.tl, handles.tr, handles.bl, handles.br].forEach(el=>{ el.hidden = !show; });
   }
 
-  // ===== File load =====
   function loadImageFromFile(file){
     const reader = new FileReader();
     reader.onload = e => {
@@ -252,8 +199,8 @@
         imgRotation = 0;
         currentFilter = 'none';
         modeHQ = true;
-        quality = parseFloat(jpgQualityInput.value) || 0.95;
-        maxWSetting = parseInt(maxWidthInput.value) || 2400;
+        quality = 1.0;
+        maxWSetting = parseInt(maxWidthInput.value) || 2200;
         drawImageFit();
         initCrop();
         setUIEnabled(true);
@@ -267,31 +214,43 @@
     if (file) loadImageFromFile(file);
   });
 
-  // ===== Draw & Filters =====
   function drawImageFit(){
+    // Determine target canvas width based on mode
     const naturalW = (imgRotation % 180 === 0) ? img.width : img.height;
     const naturalH = (imgRotation % 180 === 0) ? img.height : img.width;
     const container = canvas.parentElement.getBoundingClientRect();
+    // On HQ: use min(natural, maxWSetting), on normal: min(container.width, 1200)
     const targetW = modeHQ ? Math.min(naturalW, maxWSetting) : Math.min(container.width, 1000);
     const targetH = Math.round(targetW * (naturalH / naturalW));
-    canvas.width = Math.max(900, Math.floor(targetW));
-    canvas.height = Math.floor(targetH);
+    canvas.width = Math.max(800, Math.floor(targetW));
+    canvas.height = Math.max(800 * (naturalH/naturalW) | 0, Math.floor(targetH));
 
-    // draw rotated into base then scale
+    // Draw with rotation on an offscreen canvas at same output size
+    const off = document.createElement('canvas');
+    off.width = canvas.width;
+    off.height = canvas.height;
+    const octx = off.getContext('2d');
+
+    // Draw original image into an intermediate canvas that matches aspect
     const base = document.createElement('canvas');
     base.width = (imgRotation % 180 === 0) ? img.width : img.height;
     base.height = (imgRotation % 180 === 0) ? img.height : img.width;
     const bctx = base.getContext('2d');
+    // rotate draw
     bctx.save();
-    if (imgRotation === 90){ bctx.translate(base.width,0); bctx.rotate(Math.PI/2); }
-    else if (imgRotation === 180){ bctx.translate(base.width,base.height); bctx.rotate(Math.PI); }
-    else if (imgRotation === 270){ bctx.translate(0,base.height); bctx.rotate(3*Math.PI/2); }
-    bctx.drawImage(img,0,0);
+    if (imgRotation === 90){ bctx.translate(base.width,0); bctx.rotate(Math.PI/2); bctx.drawImage(img,0,0); }
+    else if (imgRotation === 180){ bctx.translate(base.width,base.height); bctx.rotate(Math.PI); bctx.drawImage(img,0,0); }
+    else if (imgRotation === 270){ bctx.translate(0,base.height); bctx.rotate(3*Math.PI/2); bctx.drawImage(img,0,0); }
+    else { bctx.drawImage(img,0,0); }
     bctx.restore();
 
+    // scale to output
+    octx.drawImage(base, 0, 0, base.width, base.height, 0, 0, off.width, off.height);
+
+    // Blit to main canvas
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(base, 0,0, base.width, base.height, 0,0, canvas.width, canvas.height);
-    applyFilter();
+    ctx.drawImage(off,0,0);
+    applyFilter(); // apply selected filter
     updateCropUI();
   }
 
@@ -299,8 +258,64 @@
   resetBtn.addEventListener('click', () => { currentFilter='none'; filterSelect.value='none'; drawImageFit(); initCrop(); });
   filterSelect.addEventListener('change', e => { currentFilter = e.target.value; applyFilter(); });
   qualityMode.addEventListener('change', e => { modeHQ = (e.target.value === 'hq'); drawImageFit(); });
-  maxWidthInput.addEventListener('change', e => { maxWSetting = Math.max(1000, Math.min(4000, parseInt(e.target.value)||2400)); drawImageFit(); });
-  jpgQualityInput.addEventListener('change', e => { quality = Math.max(0.5, Math.min(1.0, parseFloat(e.target.value)||0.95)); });
+  maxWidthInput.addEventListener('change', e => { maxWSetting = Math.max(800, Math.min(4000, parseInt(e.target.value)||2200)); drawImageFit(); });
+  jpgQualityInput.addEventListener('change', e => { quality = Math.max(0.5, Math.min(1.0, parseFloat(e.target.value)||1.0)); });
+
+  function initCrop(){
+    crop = { x: canvas.width*0.05, y: canvas.height*0.05, w: canvas.width*0.9, h: canvas.height*0.9 };
+    updateCropUI();
+  }
+
+  function updateCropUI(){
+    if (!crop) return;
+    const wrap = canvas.getBoundingClientRect();
+    const scaleX = wrap.width / canvas.width;
+    const scaleY = wrap.height / canvas.height;
+    const left = wrap.left + crop.x * scaleX;
+    const top = wrap.top + crop.y * scaleY;
+    const width = crop.w * scaleX;
+    const height = crop.h * scaleY;
+
+    cropRect.style.left = `${left}px`; cropRect.style.top = `${top}px`;
+    cropRect.style.width = `${width}px`; cropRect.style.height = `${height}px`;
+
+    handles.tl.style.left = `${left}px`; handles.tl.style.top = `${top}px`;
+    handles.tr.style.left = `${left+width}px`; handles.tr.style.top = `${top}px`;
+    handles.bl.style.left = `${left}px`; handles.bl.style.top = `${top+height}px`;
+    handles.br.style.left = `${left+width}px`; handles.br.style.top = `${top+height}px`;
+  }
+
+  // Crop handle drag
+  let dragging = null;
+  Object.entries(handles).forEach(([key, el]) => {
+    const start = (cx, cy) => { dragging = { key, startX: cx, startY: cy, orig: {...crop} }; };
+    const move = (cx, cy) => {
+      if (!dragging) return;
+      const wrap = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / wrap.width;
+      const scaleY = canvas.height / wrap.height;
+      const dx = (cx - dragging.startX) * scaleX;
+      const dy = (cy - dragging.startY) * scaleY;
+      const minSize = 60;
+      const o = dragging.orig;
+      if (dragging.key === 'tl'){ crop.x = Math.min(o.x+dx, o.x+o.w-minSize); crop.y = Math.min(o.y+dy, o.y+o.h-minSize); crop.w = o.w - (crop.x - o.x); crop.h = o.h - (crop.y - o.y); }
+      if (dragging.key === 'tr'){ crop.y = Math.min(o.y+dy, o.y+o.h-minSize); crop.w = Math.max(minSize, o.w + dx); crop.h = o.h - (crop.y - o.y); }
+      if (dragging.key === 'bl'){ crop.x = Math.min(o.x+dx, o.x+o.w-minSize); crop.w = o.w - (crop.x - o.x); crop.h = Math.max(minSize, o.h + dy); }
+      if (dragging.key === 'br'){ crop.w = Math.max(minSize, o.w + dx); crop.h = Math.max(minSize, o.h + dy); }
+      crop.x = Math.max(0, Math.min(crop.x, canvas.width - crop.w));
+      crop.y = Math.max(0, Math.min(crop.y, canvas.height - crop.h));
+      updateCropUI();
+    };
+    const end = () => dragging = null;
+
+    el.addEventListener('mousedown', e => { e.preventDefault(); start(e.clientX, e.clientY); });
+    window.addEventListener('mousemove', e => move(e.clientX, e.clientY));
+    window.addEventListener('mouseup', end);
+
+    el.addEventListener('touchstart', e => { e.preventDefault(); const t=e.touches[0]; start(t.clientX, t.clientY); }, {passive:false});
+    window.addEventListener('touchmove', e => { const t=e.touches[0]; move(t.clientX, t.clientY); }, {passive:false});
+    window.addEventListener('touchend', end);
+  });
 
   function applyFilter(){
     if (!canvas.width) return;
@@ -313,7 +328,7 @@
     let d = imageData.data;
 
     if (currentFilter === 'gray' || currentFilter === 'bw' || currentFilter === 'enhance'){
-      let contrast = 1, brightness = 0; let bw = false; let keepColor = (currentFilter==='enhance');
+      let contrast = 1, brightness = 0; let bw = false;
       if (currentFilter === 'gray'){ contrast = 1.0; brightness = 0; }
       if (currentFilter === 'bw'){ contrast = 1.45; brightness = 12; bw = true; }
       if (currentFilter === 'enhance'){ contrast = 1.28; brightness = 10; }
@@ -322,7 +337,7 @@
       for (let i=0; i<d.length; i+=4){
         let r=d[i], g=d[i+1], b=d[i+2];
         let y = 0.299*r + 0.587*g + 0.114*b;
-        if (!keepColor){ r = g = b = y; }
+        if (currentFilter !== 'enhance'){ r = g = b = y; } // keep color for enhance
         r = factor*(r-128)+128 + brightness;
         g = factor*(g-128)+128 + brightness;
         b = factor*(b-128)+128 + brightness;
@@ -340,8 +355,11 @@
     }
 
     if (currentFilter === 'sharpen'){
+      // Simple unsharp mask: blur then subtract (approx).
+      // Create a blurred copy using a basic 3x3 box blur convolution
       let src = tctx.getImageData(0,0,temp.width,temp.height);
       let blurred = boxBlur(src, temp.width, temp.height);
+      // sharpen = original*1.8 - blurred*0.8
       let s = src.data, b = blurred.data;
       for (let i=0; i<s.length; i+=4){
         s[i]   = clamp(s[i]*1.8   - b[i]*0.8);
@@ -351,9 +369,11 @@
       tctx.putImageData(src,0,0);
     }
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    ctx.drawImage(temp,0,0);
+    const vctx = canvas.getContext('2d');
+    vctx.clearRect(0,0,canvas.width,canvas.height);
+    vctx.drawImage(temp,0,0);
   }
+
   function clamp(v){ return v<0?0:(v>255?255:v); }
   function boxBlur(srcData, w, h){
     const out = new ImageData(w,h);
@@ -377,158 +397,24 @@
     return out;
   }
 
-  // ===== Crop UI (rect) =====
-  function initCrop(){
-    crop = { x: canvas.width*0.05, y: canvas.height*0.05, w: canvas.width*0.9, h: canvas.height*0.9 };
-    updateCropUI();
-  }
-  function updateCropUI(){
-    if (!crop) return;
-    const wrap = canvas.getBoundingClientRect();
-    const scaleX = wrap.width / canvas.width;
-    const scaleY = wrap.height / canvas.height;
-    const left = wrap.left + crop.x * scaleX;
-    const top = wrap.top + crop.y * scaleY;
-    const width = crop.w * scaleX;
-    const height = crop.h * scaleY;
-    cropRect.style.left = `${left}px`; cropRect.style.top = `${top}px`;
-    cropRect.style.width = `${width}px`; cropRect.style.height = `${height}px`;
-    handles.tl.style.left = `${left}px`; handles.tl.style.top = `${top}px`;
-    handles.tr.style.left = `${left+width}px`; handles.tr.style.top = `${top}px`;
-    handles.bl.style.left = `${left}px`; handles.bl.style.top = `${top+height}px`;
-    handles.br.style.left = `${left+width}px`; handles.br.style.top = `${top+height}px`;
-  }
-  let dragging = null;
-  Object.entries(handles).forEach(([key, el]) => {
-    const start = (cx, cy) => { dragging = { key, startX: cx, startY: cy, orig: {...crop} }; };
-    const move = (cx, cy) => {
-      if (!dragging) return;
-      const wrap = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / wrap.width;
-      const scaleY = canvas.height / wrap.height;
-      const dx = (cx - dragging.startX) * scaleX;
-      const dy = (cy - dragging.startY) * scaleY;
-      const minSize = 60;
-      const o = dragging.orig;
-      if (dragging.key === 'tl'){ crop.x = Math.min(o.x+dx, o.x+o.w-minSize); crop.y = Math.min(o.y+dy, o.y+o.h-minSize); crop.w = o.w - (crop.x - o.x); crop.h = o.h - (crop.y - o.y); }
-      if (dragging.key === 'tr'){ crop.y = Math.min(o.y+dy, o.y+o.h-minSize); crop.w = Math.max(minSize, o.w + dx); crop.h = o.h - (crop.y - o.y); }
-      if (dragging.key === 'bl'){ crop.x = Math.min(o.x+dx, o.x+o.w-minSize); crop.w = o.w - (crop.x - o.x); crop.h = Math.max(minSize, o.h + dy); }
-      if (dragging.key === 'br'){ crop.w = Math.max(minSize, o.w + dx); crop.h = Math.max(minSize, o.h + dy); }
-      crop.x = Math.max(0, Math.min(crop.x, canvas.width - crop.w));
-      crop.y = Math.max(0, Math.min(crop.y, canvas.height - crop.h));
-      updateCropUI();
-    };
-    const end = () => dragging = null;
-    el.addEventListener('mousedown', e => { e.preventDefault(); start(e.clientX, e.clientY); });
-    window.addEventListener('mousemove', e => move(e.clientX, e.clientY));
-    window.addEventListener('mouseup', end);
-    el.addEventListener('touchstart', e => { e.preventDefault(); const t=e.touches[0]; start(t.clientX, t.clientY); }, {passive:false});
-    window.addEventListener('touchmove', e => { const t=e.touches[0]; move(t.clientX, t.clientY); }, {passive:false});
-    window.addEventListener('touchend', end);
-  });
-
-  // ===== Auto-Detect Edges & Warp (OpenCV.js) =====
-  autoCropBtn.addEventListener('click', async () => {
-    try {
-      if (typeof cv === 'undefined') throw new Error('OpenCV belum siap. Pastikan internet aktif.');
-      const src = cv.imread(canvas);
-      let gray = new cv.Mat();
-      cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY, 0);
-      cv.GaussianBlur(gray, gray, new cv.Size(5,5), 0);
-      let edges = new cv.Mat();
-      cv.Canny(gray, edges, 50, 150, 3, false);
-      // dilate + erode untuk menyambung tepi
-      let kernel = cv.Mat.ones(3,3, cv.CV_8U);
-      cv.dilate(edges, edges, kernel);
-      cv.erode(edges, edges, kernel);
-
-      // find contours
-      let contours = new cv.MatVector();
-      let hierarchy = new cv.Mat();
-      cv.findContours(edges, contours, hierarchy, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE);
-      // pick largest 4-point contour
-      let best = null, bestArea = 0;
-      for (let i=0; i<contours.size(); i++){
-        let cnt = contours.get(i);
-        let peri = cv.arcLength(cnt, true);
-        let approx = new cv.Mat();
-        cv.approxPolyDP(cnt, approx, 0.02*peri, true);
-        if (approx.rows === 4){
-          let area = cv.contourArea(approx);
-          if (area > bestArea){ bestArea = area; best = approx; }
-        } else {
-          approx.delete();
-        }
-      }
-
-      if (best){
-        // get points
-        let pts = [];
-        for (let i=0; i<4; i++){
-          pts.push({ x: best.intPtr(i,0)[0], y: best.intPtr(i,0)[1] });
-        }
-        // order pts (top-left, top-right, bottom-right, bottom-left)
-        pts.sort((a,b)=> a.y - b.y);
-        const top = pts.slice(0,2).sort((a,b)=> a.x - b.x);
-        const bot = pts.slice(2).sort((a,b)=> a.x - b.x);
-        const ordered = [top[0], top[1], bot[1], bot[0]];
-
-        // compute width/height
-        const wTop = Math.hypot(ordered[1].x - ordered[0].x, ordered[1].y - ordered[0].y);
-        const wBot = Math.hypot(ordered[2].x - ordered[3].x, ordered[2].y - ordered[3].y);
-        const hLeft = Math.hypot(ordered[3].x - ordered[0].x, ordered[3].y - ordered[0].y);
-        const hRight = Math.hypot(ordered[2].x - ordered[1].x, ordered[2].y - ordered[1].y);
-        const maxW = Math.max(wTop, wBot);
-        const maxH = Math.max(hLeft, hRight);
-        const dst = cv.Mat.zeros(new cv.Size(Math.floor(maxW), Math.floor(maxH)), cv.CV_8UC4);
-
-        const srcTri = cv.matFromArray(4,1, cv.CV_32FC2, [ordered[0].x,ordered[0].y, ordered[1].x,ordered[1].y, ordered[2].x,ordered[2].y, ordered[3].x,ordered[3].y]);
-        const dstTri = cv.matFromArray(4,1, cv.CV_32FC2, [0,0, maxW,0, maxW,maxH, 0,maxH]);
-        const M = cv.getPerspectiveTransform(srcTri, dstTri);
-        let warped = new cv.Mat();
-        cv.warpPerspective(src, warped, M, new cv.Size(Math.floor(maxW), Math.floor(maxH)), cv.INTER_LINEAR, cv.BORDER_REPLICATE, new cv.Scalar());
-
-        // Draw warped back to canvas (replace current image)
-        cv.imshow(canvas, warped);
-        // Reset crop to full
-        crop = { x: 0, y: 0, w: canvas.width, h: canvas.height };
-        updateCropUI();
-        applyFilter();
-
-        // cleanup
-        warped.delete(); M.delete(); srcTri.delete(); dstTri.delete();
-      } else {
-        alert('Tidak menemukan tepi dokumen. Silakan atur crop manual.');
-      }
-
-      // cleanup
-      src.delete(); gray.delete(); edges.delete(); kernel.delete(); contours.delete(); hierarchy.delete();
-      if (best) best.delete();
-    } catch (err){
-      console.error(err);
-      alert('Auto-crop gagal. Pastikan pencahayaan bagus & latar belakang kontras.');
-    }
-  });
-
-  // ===== Get current cropped image =====
-  function getCroppedCanvas(){
+  function getCroppedDataURL(){
+    if (!crop) return canvas.toDataURL('image/jpeg', quality);
     const out = document.createElement('canvas');
-    out.width = Math.max(1, Math.round(crop.w));
-    out.height = Math.max(1, Math.round(crop.h));
+    out.width = Math.round(crop.w);
+    out.height = Math.round(crop.h);
     const octx = out.getContext('2d');
     octx.drawImage(canvas, crop.x, crop.y, crop.w, crop.h, 0, 0, out.width, out.height);
-    return out;
+    return out.toDataURL('image/jpeg', quality);
   }
-  function getCroppedDataURL(q=quality){ return getCroppedCanvas().toDataURL('image/jpeg', q); }
 
-  // ===== Pages (multi) =====
   addPageBtn.addEventListener('click', () => {
     const dataUrl = getCroppedDataURL();
-    pages.push({ dataUrl });
+    pages.push({ dataUrl, filter: currentFilter });
     renderPages();
     exportPdfBtn.disabled = pages.length === 0;
     clearPageBtn.disabled = pages.length === 0;
   });
+
   function renderPages(){
     pagesWrap.innerHTML = '';
     pageCount.textContent = pages.length;
@@ -545,6 +431,7 @@
       pagesWrap.appendChild(d);
     });
   }
+
   clearPageBtn.addEventListener('click', () => {
     pages.splice(0, pages.length);
     renderPages();
@@ -552,13 +439,14 @@
     clearPageBtn.disabled = true;
   });
 
-  // ===== JPG & Share =====
   exportJpgBtn.addEventListener('click', () => {
+    const dataUrl = getCroppedDataURL();
     const a = document.createElement('a');
-    a.href = getCroppedDataURL();
+    a.href = dataUrl;
     a.download = `scan-${Date.now()}.jpg`;
     a.click();
   });
+
   shareBtn.addEventListener('click', async () => {
     try{
       const dataUrl = getCroppedDataURL();
@@ -566,51 +454,30 @@
       const blob = await res.blob();
       const file = new File([blob], `scan-${Date.now()}.jpg`, { type: 'image/jpeg' });
       if (navigator.canShare && navigator.canShare({ files: [file] })){
-        await navigator.share({ files: [file], title: 'SmartScan PRO', text: 'Hasil scan' });
-      } else alert('Share API tidak tersedia. Gunakan tombol unduh, lalu kirim manual.');
-    }catch(e){ console.error(e); alert('Gagal share.'); }
+        await navigator.share({ files: [file], title: 'SmartScan Lite', text: 'Hasil scan' });
+      } else {
+        alert('Share API tidak tersedia. Gunakan tombol unduh, lalu kirim manual.');
+      }
+    }catch(e){
+      console.error(e);
+      alert('Gagal share.');
+    }
   });
 
-  // ===== Export PDF with smart compression =====
   exportPdfBtn.addEventListener('click', async () => {
     if (!pages.length) return;
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
-    const a4w = 595, a4h = 842;
-    const margin = 24;
-    // compute pixel size based on DPI
-    const dpi = parseInt(dpiSelect.value) || 200;
-    const pdfQ = Math.max(0.5, Math.min(1.0, parseFloat(pdfQualityInput.value) || 0.8));
-
+    const a4w = 595, a4h = 842, margin = 24;
     for (let i=0; i<pages.length; i++){
       if (i>0) doc.addPage();
       const imgUrl = pages[i].dataUrl;
       const dim = await loadImg(imgUrl);
-      // target region on PDF (pt): maxW/H
-      const maxWpt = a4w - margin*2;
-      const maxHpt = a4h - margin*2;
-      // convert target region to pixels based on DPI: 1 inch = 72pt
-      const maxWpx = Math.floor(maxWpt/72 * dpi);
-      const maxHpx = Math.floor(maxHpt/72 * dpi);
-
-      // scale image into target pixels
-      let wpx = maxWpx;
-      let hpx = Math.round(dim.height * (wpx / dim.width));
-      if (hpx > maxHpx){ hpx = maxHpx; wpx = Math.round(dim.width * (hpx / dim.height)); }
-
-      // draw into temp canvas at desired pixels, then toDataURL with pdfQ
-      const tmp = document.createElement('canvas');
-      tmp.width = wpx; tmp.height = hpx;
-      const tctx = tmp.getContext('2d');
-      const im = new Image(); im.src = imgUrl;
-      await new Promise(res => im.onload = res);
-      tctx.drawImage(im, 0, 0, wpx, hpx);
-      const compressedUrl = tmp.toDataURL('image/jpeg', pdfQ);
-
-      const wpt = wpx / dpi * 72;
-      const hpt = hpx / dpi * 72;
-      const x = (a4w - wpt)/2, y = (a4h - hpt)/2;
-      doc.addImage(compressedUrl, 'JPEG', x, y, wpt, hpt);
+      let w = a4w - margin*2;
+      let h = dim.height * (w / dim.width);
+      if (h > a4h - margin*2){ h = a4h - margin*2; w = dim.width * (h / dim.height); }
+      const x = (a4w - w)/2, y = (a4h - h)/2;
+      doc.addImage(imgUrl, 'JPEG', x, y, w, h);
     }
     doc.save(`scan-${Date.now()}.pdf`);
   });
@@ -619,50 +486,9 @@
     return new Promise(res => { const im = new Image(); im.onload = ()=>res({width:im.width,height:im.height}); im.src=src; });
   }
 
-  // ===== OCR (Tesseract.js) =====
-  ocrBtn.addEventListener('click', async () => {
-    try{
-      ocrStatus.textContent = 'Status: memproses...';
-      const lang = ocrLang.value;
-      const dataUrl = getCroppedDataURL(0.95);
-      const { Tesseract } = window;
-      if (!Tesseract) throw new Error('Tesseract.js belum siap.');
-      const worker = Tesseract.createWorker({
-        logger: m => { if (m.status) ocrStatus.textContent = `Status: ${m.status} ${m.progress? Math.round(m.progress*100)+'%':''}`; }
-      });
-      await worker.load();
-      await worker.loadLanguage(lang);
-      await worker.initialize(lang);
-      const { data: { text } } = await worker.recognize(dataUrl);
-      await worker.terminate();
-      ocrOutput.value = text || '';
-      copyTextBtn.disabled = !text;
-      saveTxtBtn.disabled = !text;
-      ocrStatus.textContent = 'Status: selesai';
-    }catch(e){
-      console.error(e);
-      ocrStatus.textContent = 'Status: gagal (cek koneksi internet).';
-      alert('OCR gagal. Pastikan internet aktif untuk memuat model bahasa.');
-    }
-  });
-  copyTextBtn.addEventListener('click', async () => {
-    try{ await navigator.clipboard.writeText(ocrOutput.value||''); }catch{}
-  });
-  saveTxtBtn.addEventListener('click', () => {
-    const blob = new Blob([ocrOutput.value||''], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a'); a.href = url; a.download = `ocr-${Date.now()}.txt`; a.click();
-    setTimeout(()=> URL.revokeObjectURL(url), 1000);
-  });
-
-  // ===== Init =====
+  // Init
   setUIEnabled(false);
-  hint.style.opacity = .85;
-
-  // Notify when OpenCV is ready
-  if (typeof cv !== 'undefined'){
-    cv['onRuntimeInitialized'] = () => { console.log('OpenCV.js siap'); };
-  }
+  hint.style.opacity = .8;
 })();
       if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js")
